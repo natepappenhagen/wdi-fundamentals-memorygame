@@ -40,31 +40,51 @@ var checkForMatch = function () {
 
 
 // Function for flipping a card
-var flipCard = function (cardId) {
+var flipCard = function () {
+  // 'data-id'of card that was just flipped and cache
+  cardId = this.getAttribute('data-id');
 
-  // Print card just flipped to console. Notice the connection
-  // between "cardId" and the "cards[cardId]" - Interesting!
-  console.log("User flipped " + cards[cardId].rank);
+  // Add card to 'cardsInPlay' array
+  cardsInPlay.push(cards[cardId].card);
 
-  // Push card flipped to "cardsInPlay" array. Same trick with "cardId".
-  cardsInPlay.push(cards[cardId].rank);
+  // Display the card's image
+  this.setAttribute('src', cards[cardId].cardImage);
 
-  //print image path in console.
-  console.log("cardimage:" + cards[cardId].cardImage);
 
-  //print suit in console.
-  console.log("suit:" + cards[cardId].suit);
 
-  // Check to see if two cards have been played
+
+  // two cards played??
   if (cardsInPlay.length === 2) {
-    // If so, call the checkForMatch function
+    // THEN  'checkForMatch' function
     checkForMatch();
   }
 };
 
+// Function to create board
+var createBoard = function () {
+  // loop through cards to create 'card elements' for board
+  for (var i = 0; i < cards.length; i++) {
+    // create image element
+    var cardElement = document.createElement('img');
+
+    // set the 'src' to show back of card
+    cardElement.setAttribute('src', 'images/back.png');
+
+    //set 'data-id' as index of curent element
+    cardElement.setAttribute('data-id', i);
+
+    // event listener (click) => flipCard
+    cardElement.addEventListener('click', flipCard);
+
+    // append card to board
+    document.getElementById('game-board').appendChild(cardElement);
+
+
+  }
+
+};
 
 //// Call the function to "play".
-// Supply an index as the argument for the function
-flipCard(0);
-flipCard(1);
+
+createBoard();
 
